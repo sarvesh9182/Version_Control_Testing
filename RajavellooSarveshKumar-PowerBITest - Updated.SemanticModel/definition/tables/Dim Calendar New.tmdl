@@ -1,0 +1,75 @@
+table 'Dim Calendar New'
+	lineageTag: 24e2d1f9-daee-4a15-9ec5-550682f97610
+
+	column Month
+		dataType: string
+		lineageTag: b5079999-162e-4362-a59e-1e45a2a66882
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ac39379-160e-4a63-bd85-c3d957821480
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 3722f034-7313-4e9d-b12a-3c08f6896c2b
+		summarizeBy: none
+		sourceColumn: MonthSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: b8434229-c9d6-4cea-ab59-e968ca54df81
+		summarizeBy: none
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Select'
+		dataType: string
+		lineageTag: 5b24e9de-5583-4bb1-9a95-7f6f3e8c990b
+		summarizeBy: none
+		sourceColumn: Month Select
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Key'
+		dataType: string
+		lineageTag: 6fdb7154-f240-474e-a838-98a4fa55cfdd
+		summarizeBy: none
+		sourceColumn: Date Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Calendar New' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Sarvesh\OneDrive\Desktop\PBI Test Source Tables.xlsx"), null, true),
+				    Calendar_Sheet = Source{[Item="Calendar",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Calendar_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Month", type text}, {"Year", Int64.Type}, {"MonthSort", Int64.Type}, {"Week", Int64.Type}}),
+				    #"RemovedDuplicates" = Table.Distinct(#"Changed Type"),
+				    MaxMonth = List.Max(RemovedDuplicates[MonthSort]),
+				    AddColumn = Table.AddColumn(#"RemovedDuplicates", "Month Select", each if [MonthSort] = MaxMonth then "Current" else if [MonthSort] = MaxMonth-1 then "Prior" else [Month]),
+				    #"Inserted Merged Column" = Table.AddColumn(AddColumn, "Date Key", each Text.Combine({Text.From([Year], "en-CA"), "-", Text.From([MonthSort], "en-CA"), "-", Text.From([Week], "en-CA")}), type text)
+				in
+				    #"Inserted Merged Column"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

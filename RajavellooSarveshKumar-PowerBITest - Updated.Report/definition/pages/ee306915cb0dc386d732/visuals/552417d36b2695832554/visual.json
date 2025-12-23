@@ -1,0 +1,231 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "552417d36b2695832554",
+  "position": {
+    "x": 746.375833490808,
+    "y": 485.14429176902519,
+    "z": 3000,
+    "height": 415.17155737926191,
+    "width": 653.078854304457,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Store"
+                    }
+                  },
+                  "Property": "Store"
+                }
+              },
+              "queryRef": "Dim Store.Store",
+              "nativeQueryRef": "Store"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Product"
+                    }
+                  },
+                  "Property": "Category"
+                }
+              },
+              "queryRef": "Dim Product.Category",
+              "nativeQueryRef": "Category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Product"
+                    }
+                  },
+                  "Property": "Product"
+                }
+              },
+              "queryRef": "Dim Product.Product",
+              "nativeQueryRef": "Product"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Customer"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "Dim Customer.Segment",
+              "nativeQueryRef": "Segment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Customer"
+                    }
+                  },
+                  "Property": "Age"
+                }
+              },
+              "queryRef": "Dim Customer.Age",
+              "nativeQueryRef": "Age"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact Sales"
+                    }
+                  },
+                  "Property": "Net Sales $"
+                }
+              },
+              "queryRef": "Fact Sales.Net Sales $",
+              "nativeQueryRef": "Net Sales $",
+              "displayName": "Net Sales $"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Info Parameter"
+                    }
+                  },
+                  "Property": "Info Parameter"
+                }
+              },
+              "index": 5,
+              "length": 1,
+              "sortDirection": "Descending"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact Sales"
+                  }
+                },
+                "Property": "Net Sales $"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "108.04363114769568D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Dim Product.Category"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "92.15900481849503D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Dim Product.Product"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Net Sales Table'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

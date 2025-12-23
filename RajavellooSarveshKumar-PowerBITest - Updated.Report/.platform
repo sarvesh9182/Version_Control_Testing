@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "RajavellooSarveshKumar-PowerBITest - Updated"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "09e9580d-2c86-42fa-ac1b-f940273e4cc6"
+  }
+}

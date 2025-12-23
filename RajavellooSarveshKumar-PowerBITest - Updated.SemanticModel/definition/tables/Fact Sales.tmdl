@@ -1,0 +1,110 @@
+table 'Fact Sales'
+	lineageTag: 7b895ff1-7cc2-4d1b-9cdf-63ff1747e94e
+
+	measure 'Net Sales $' =
+			
+			CALCULATE( SUM('Fact Sales'[Amount]),'Fact Sales'[Status] <> "Returned")
+		lineageTag: a07c1a63-2bcd-43de-9eeb-afeda7e3e585
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales Qty' =
+			
+			CALCULATE( SUM('Fact Sales'[Unit]),'Fact Sales'[Status] <> "Returned")
+		formatString: 0
+		lineageTag: 79c3c635-36cc-4f66-aa5b-6c88bf89479d
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: 44b90fa9-e9aa-43f4-a329-7e64dd9895a1
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreID
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b609fcf-4f01-476d-ad56-64c570b1a8a7
+		summarizeBy: none
+		sourceColumn: StoreID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 647870cb-b092-4821-bb14-936359809763
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 55ae31cc-f6b8-469a-b92c-4a2fd4cd4c74
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: int64
+		formatString: 0
+		lineageTag: cef48d27-508a-462c-ac49-a351c5f6bf16
+		summarizeBy: sum
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5becc450-bc24-4c66-a621-d33ca812374c
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f7d51523-ee3b-49f9-bbf8-820c11d07388
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Date Key'
+		dataType: string
+		lineageTag: f2a80806-b927-427d-b57b-14b75b354f1f
+		summarizeBy: none
+		sourceColumn: Date Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fact Sales' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Sarvesh\OneDrive\Desktop\PBI Test Source Tables.xlsx"), null, true),
+				    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductID", Int64.Type}, {"StoreID", Int64.Type}, {"Status", type text}, {"ID", Int64.Type}, {"Unit", Int64.Type}, {"Amount", Int64.Type}, {"Date", type date}}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Changed Type", "Week of Year", each Date.WeekOfYear([Date]), Int64.Type),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Week of Year", "Month", each Date.Month([Date]), Int64.Type),
+				    #"Inserted Year" = Table.AddColumn(#"Inserted Month", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Inserted Year", "Date Key", each Text.Combine({Text.From([Year], "en-CA"), "-", Text.From([Month], "en-CA"), "-", Text.From([Week of Year], "en-CA")}), type text),
+				    #"Removed Columns" = Table.RemoveColumns(#"Inserted Merged Column",{"Column8", "Column9", "Column10", "Week of Year", "Month", "Year"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

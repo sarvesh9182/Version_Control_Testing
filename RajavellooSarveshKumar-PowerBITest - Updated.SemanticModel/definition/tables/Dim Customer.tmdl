@@ -1,0 +1,127 @@
+table 'Dim Customer'
+	lineageTag: 2f2bec78-88dd-4c7e-9dd7-73904c9885a7
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 50faabfb-d0a2-4b1c-8a5a-decef5b133f7
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: int64
+		formatString: 0
+		lineageTag: 1fdc2d40-315c-46c2-a622-a0dd31a63a98
+		summarizeBy: sum
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: ff9bacbd-6570-48aa-b875-110c8170902c
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 46348789-13d2-4655-807e-253f15de67f7
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 093d5bbe-c0aa-498f-86ed-dae9be229c99
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 58a85411-df9e-4db8-99ae-4be9c0900949
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store
+		dataType: string
+		lineageTag: 2d094490-43fe-4920-9d30-ded9457d00ce
+		summarizeBy: none
+		sourceColumn: Store
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 96eb4fcf-b864-475c-93f2-e18abc838751
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue
+		dataType: string
+		lineageTag: cc1c9e83-6764-4f16-81da-ac056991f350
+		summarizeBy: none
+		sourceColumn: Issue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promotion
+		dataType: string
+		lineageTag: 1f76fda4-e72b-483c-9d86-d7a7bfe89d08
+		summarizeBy: none
+		sourceColumn: Promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: int64
+		formatString: 0
+		lineageTag: d4076301-a0cc-4918-b9ba-cc90a5d65df6
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: string
+		lineageTag: 5a6306dd-1f61-475e-a28c-ae33cac6f60a
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Price Range'
+		dataType: string
+		lineageTag: a0b8a2d8-feb1-4974-b5d5-6b1caaad3aa1
+		summarizeBy: none
+		sourceColumn: Price Range
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Customer' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Sarvesh\OneDrive\Desktop\PBI Test Source Tables.xlsx"), null, true),
+				    Customer_Sheet = Source{[Item="Customer",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Customer_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"Unit", Int64.Type}, {"Gender", type text}, {"Product", type text}, {"Category", type text}, {"Segment", type text}, {"Store", type text}, {"Type", type text}, {"Issue", type text}, {"Promotion", type text}, {"Amount", Int64.Type}, {"Age", type text}, {"Price Range", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

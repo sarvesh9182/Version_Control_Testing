@@ -1,0 +1,122 @@
+table 'Dim Calendar'
+	isHidden
+	lineageTag: 61bddbf2-9deb-45b5-a3d1-838a102dc042
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 4c5bf0fb-41f6-40a2-b3c4-77e4472ff665
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 956daaf2-5e43-49f7-8625-ad247a4d6e60
+			defaultHierarchy: LocalDateTable_6212868b-d2ae-43d3-937b-383ff29f04a9.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b8d5190e-8134-43a1-b528-6fa6127699e4
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		isHidden
+		lineageTag: 4d805523-bc43-4386-b577-92bd3291eafc
+		summarizeBy: none
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthSort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1c28dd8d-ae3c-4625-ab4a-d9815028c910
+		summarizeBy: sum
+		sourceColumn: MonthSort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fc4476f8-6076-434c-afc7-da3173164abb
+		summarizeBy: sum
+		sourceColumn: Week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthNum
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b68856ca-da9e-49c7-95fa-21855389997e
+		summarizeBy: sum
+		sourceColumn: YearMonthNum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Select'
+		dataType: string
+		isHidden
+		lineageTag: f303cefb-6ba8-4cfe-8b1f-ffac5763d7a1
+		summarizeBy: none
+		sourceColumn: Month Select
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Calendar' = m
+		mode: import
+		source = ```
+				let
+				    StartDate = #date(2019, 1, 1),
+				    EndDate = #date(2019, 6, 30),
+				    DateList = List.Dates(StartDate, Duration.Days(EndDate - StartDate) + 1, #duration(1, 0, 0, 0)),
+				    DateTable = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}),
+				    AddYear = Table.AddColumn(DateTable, "Year", each Date.Year([Date]), Int64.Type),
+				    AddMonth = Table.AddColumn(AddYear, "Month", each Date.ToText([Date], "MMM"), type text),
+				    AddMonthSort = Table.AddColumn(AddMonth, "MonthSort", each Date.Month([Date]), Int64.Type),
+				    AddWeek = Table.AddColumn(AddMonthSort, "Week", each Date.WeekOfYear([Date]), Int64.Type),
+				    AddYearMonthNum = Table.AddColumn(AddWeek, "YearMonthNum", each Date.Year([Date]) * 100 + Date.Month([Date]), Int64.Type),
+				    MaxYearMonth = List.Max(AddYearMonthNum[YearMonthNum]), 
+				    LatestYear = Number.FromText(Text.Start(Text.From(MaxYearMonth), 4)), 
+				    LatestMonthSort = Number.FromText(Text.End(Text.From(MaxYearMonth), 2)), 
+				    #"Added Month Select" = Table.AddColumn(AddYearMonthNum, "Month Select", each if [Year] = LatestYear and [MonthSort] = LatestMonthSort then "Current" else if ([Year] = LatestYear and [MonthSort] = LatestMonthSort - 1) or (LatestMonthSort = 1 and [Year] = LatestYear - 1 and [MonthSort] = 12) then "Prior" else [Month], type text)
+				in
+				    #"Added Month Select"
+				```
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

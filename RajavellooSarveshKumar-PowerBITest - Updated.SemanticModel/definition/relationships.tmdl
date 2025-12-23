@@ -1,0 +1,30 @@
+relationship 8d4ce2c3-5177-5b9f-59cc-f797e49baa94
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Dim Customer'.ID
+	toColumn: 'Fact Sales'.ID
+
+relationship cef888c2-8e66-4eab-b21e-53d8dbbe7d1c
+	fromColumn: 'Fact Sales'.StoreID
+	toColumn: 'Dim Store'.StoreID
+
+relationship 97bbd416-f5be-84e7-64a7-36d02921f5ac
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: 'Fact Sales'.ProductID
+	toColumn: 'Dim Product'.ProductID
+
+relationship b92189fe-7a61-7f49-0579-c50c466f40eb
+	isActive: false
+	fromColumn: 'Fact Sales'.Date
+	toColumn: 'Dim Calendar'.Date
+
+relationship 956daaf2-5e43-49f7-8625-ad247a4d6e60
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Dim Calendar'.Date
+	toColumn: LocalDateTable_6212868b-d2ae-43d3-937b-383ff29f04a9.Date
+
+relationship AutoDetected_b2a5b794-3b89-4021-ac6b-8af7f896b215
+	fromColumn: 'Fact Sales'.'Date Key'
+	toColumn: 'Dim Calendar New'.'Date Key'
+

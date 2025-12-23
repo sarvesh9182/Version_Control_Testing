@@ -1,0 +1,77 @@
+table 'Dim Store'
+	lineageTag: a2b30bd8-7924-4947-934c-1e1e32dc575d
+
+	column StoreID
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b08d701-b8f3-43c9-96de-2217e4fdeefe
+		summarizeBy: none
+		sourceColumn: StoreID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store
+		dataType: string
+		lineageTag: 8a51c5d7-5b31-402a-b751-0e466f20d1b0
+		summarizeBy: none
+		sourceColumn: Store
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 8b423de6-4ec5-4f2d-80b2-4de36ba700dd
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitude
+		dataType: double
+		lineageTag: 877a4cb5-b18d-4d9a-80f9-e3201dfb4291
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Latitude
+		dataType: double
+		lineageTag: 7eb9d64b-bd5c-4ead-bcc5-d91c8597ec59
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column image
+		dataType: string
+		lineageTag: 2bc38b13-8299-4a7d-926b-405cec78594e
+		summarizeBy: none
+		sourceColumn: image
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Store' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Sarvesh\OneDrive\Desktop\PBI Test Source Tables.xlsx"), null, true),
+				    Store_Sheet = Source{[Item="Store",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Store_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"[Source]", type any}, {"Column2", type text}, {"Column3", type text}, {"Column4", type any}, {"Column5", type any}, {"Column6", type text}}),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers1",{{"StoreID", Int64.Type}, {"Store", type text}, {"Type", type text}, {"Longitude", type number}, {"Latitude", type number}, {"image", type text}})
+				in
+				    #"Changed Type1"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

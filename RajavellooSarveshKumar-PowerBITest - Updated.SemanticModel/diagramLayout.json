@@ -1,0 +1,116 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 344.00001525878906,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 991.89488599929109,
+            "y": 0
+          },
+          "nodeIndex": "Dim Calendar",
+          "nodeLineageTag": "61bddbf2-9deb-45b5-a3d1-838a102dc042",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 130,
+            "y": 203.8512595609651
+          },
+          "nodeIndex": "Dim Customer",
+          "nodeLineageTag": "2f2bec78-88dd-4c7e-9dd7-73904c9885a7",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 300
+        },
+        {
+          "location": {
+            "x": 546.58878512138062,
+            "y": 0
+          },
+          "nodeIndex": "Dim Product",
+          "nodeLineageTag": "47b4d705-ea1a-4538-8eb7-2d57850a675a",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 300
+        },
+        {
+          "location": {
+            "x": 551.61905930470289,
+            "y": 435.075459582341
+          },
+          "nodeIndex": "Dim Store",
+          "nodeLineageTag": "a2b30bd8-7924-4947-934c-1e1e32dc575d",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 224
+        },
+        {
+          "location": {
+            "x": 550.39488599929109,
+            "y": 191.51683440006036
+          },
+          "nodeIndex": "Fact Sales",
+          "nodeLineageTag": "7b895ff1-7cc2-4d1b-9cdf-63ff1747e94e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 248
+        },
+        {
+          "location": {
+            "x": 1269.6448859992911,
+            "y": 0
+          },
+          "nodeIndex": "Info Parameter",
+          "nodeLineageTag": "658e6dbf-94b0-4d3b-80e3-6fbec301bf35",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 988.64488599929109,
+            "y": 332.03772979117048
+          },
+          "nodeIndex": "Dim Calendar New",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 80,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

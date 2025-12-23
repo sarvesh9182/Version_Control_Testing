@@ -1,0 +1,42 @@
+{
+  "name": "Medtronic",
+  "dataColors": [
+    "#1010EB",
+    "#140F4B",
+    "#D9B300",
+    "#D64554",
+    "#E044A7",
+    "#744EC2",
+    "#D9B300",
+    "#D64550"
+  ],
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 100
+          }
+        ]
+      }
+    }
+  }
+}

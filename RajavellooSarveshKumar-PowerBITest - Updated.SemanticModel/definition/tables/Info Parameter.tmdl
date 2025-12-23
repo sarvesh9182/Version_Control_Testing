@@ -1,0 +1,48 @@
+table 'Info Parameter'
+	lineageTag: 658e6dbf-94b0-4d3b-80e3-6fbec301bf35
+
+	column 'Info Parameter'
+		lineageTag: 6c3c2a0b-886f-461f-b651-2bd71d2954c6
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Info Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Info Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Info Parameter Fields'
+		isHidden
+		lineageTag: ca26a701-7f5d-45a8-b1d8-50f42aaa9303
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Info Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Info Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: f6bb457e-dbee-47ab-9a7a-e755b4f655c7
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Info Parameter' = calculated
+		mode: import
+		source =
+				{
+				    ("Net Sales $", NAMEOF('Fact Sales'[Net Sales $]), 0),
+				    ("Net Sales Qty", NAMEOF('Fact Sales'[Net Sales Qty]), 1)
+				}
+
+	annotation PBI_Id = 500d67d519e843d6b0f8cd626a9e99b6
+
